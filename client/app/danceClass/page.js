@@ -10,7 +10,7 @@ export default function DanceClass() {
       const res = await response.json();
 
       // 從 res.classData 中提取課程數據
-      const classes = res.classData;
+      const classes = res.classData;      
 
       // 動態生成 HTML
       const html = classes.map((danceClass) => (
@@ -36,7 +36,7 @@ export default function DanceClass() {
 
             <div className="flex-1">
               <h3 className="text-2xl font-bold text-white">
-                {danceClass.danceStyle} - {danceClass.teacher}
+                {danceClass.style} - {danceClass.teacher}
               </h3>
               <div className="text-white">
                 {danceClass.startTime} - {danceClass.endTime}{" "}
@@ -46,7 +46,7 @@ export default function DanceClass() {
 
             <button
               className="bg-green-500 text-white py-2 px-4 rounded"
-              onClick={() => alert(`Booking ${danceClass.classCode}`)}
+              onClick={() => alert(`Booking ${danceClass.code}`)}
             >
               Book This Class
             </button>
