@@ -17,6 +17,10 @@ const StaffSchema = new Schema({
     required: true,
     unique: true,
   },
+  role: {
+    type: String,
+    default: "staff",
+  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -35,4 +39,4 @@ StaffSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("Staff", TeacherSchema);
+module.exports = mongoose.model("Staff", StaffSchema);

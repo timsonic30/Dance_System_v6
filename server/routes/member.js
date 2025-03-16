@@ -5,10 +5,9 @@ const Member = require("../models/member");
 const jwt = require("jsonwebtoken");
 const { ObjectId } = require("mongodb");
 require("dotenv").config();
+const Authorization = require("../middlewares/authorization");
 
-router.post("/information", async (req, res, next) => {
-  // const {} = req.body.objectId;
-  console.log("here", req.body.objectId);
+router.post("/information", Authorization, async (req, res, next) => {
   try {
     const user = await Member.findOne({ _id: new ObjectId(req.body.objectId) });
     console.log(user);
@@ -25,14 +24,13 @@ router.post("/information", async (req, res, next) => {
   }
 });
 
-router.post("/edit", async (req, res, next) => {
-  const { editField, editValue } = req.body;
-  const ID = "67d1257e4d1fcb94294fb6af";
-  const updateObject = { [editField]: editValue };
+router.post("/edit", Authorization, async (req, res, next) => {
+  const { editField, editValue, objectId } = req.body;
+  const updateObject = { [editField]: editValue, updatedAt: new Date() };
   console.log(updateObject);
   try {
     const user = await Member.updateOne(
-      { _id: new ObjectId(ID) },
+      { _id: new ObjectId(objectId) },
       { $set: updateObject }
     );
     console.log(user);

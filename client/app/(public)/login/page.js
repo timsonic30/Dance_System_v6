@@ -46,7 +46,7 @@ export default function Login() {
           localStorage.setItem("token", data.token);
           if (data.role === "member") router.push("/member/information");
           else if (data.role === "teacher") router.push("/teacher/information");
-          else if (data.role === "staff") router.push("/staff/information");
+          else if (data.role === "staff") router.push("/staff/profile");
         } else {
           setPasswordErr("Wrong Password");
         }

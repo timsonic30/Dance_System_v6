@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Teacher = require("../models/teacher");
 const { ObjectId } = require("mongodb");
+const Authorization = require("../middlewares/authorization");
 
-router.post("/information", async (req, res, next) => {
+router.post("/information", Authorization, async (req, res, next) => {
   const { objectId } = req.body;
   try {
     const user = await Teacher.findOne({
@@ -27,13 +28,13 @@ router.post("/information", async (req, res, next) => {
   }
 });
 
-router.post("/edit", async (req, res, next) => {
-  const { editField, editValue } = req.body;
-  const ID = "67d3eb571cc1f316f7a27482";
-  const updateObject = { [editField]: editValue };
+router.post("/edit", Authorization, async (req, res, next) => {
+  const { editField, editValue, objectId } = req.body;
+  // const ID = "67d3eb571cc1f316f7a27482";
+  const updateObject = { [editField]: editValue, updatedAt: new Date() };
   try {
     const user = await Teacher.updateOne(
-      { _id: new ObjectId(ID) },
+      { _id: new ObjectId(objectId) },
       { $set: updateObject }
     );
     console.log(user);

@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Member = require("../models/member");
 const Teacher = require("../models/teacher");
+const Staff = require("../models/staff");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -70,8 +71,6 @@ router.post("/register", async (req, res, next) => {
     console.log(err.message);
     return res.status(500).json({ error: "Internal server error" });
   }
-
-  // return res.send({ message: "Registration is completed" });
 });
 
 router.post("/login", async (req, res, next) => {
@@ -82,7 +81,8 @@ router.post("/login", async (req, res, next) => {
       (await Member.findOne({ phone: userDetail })) ||
       (await Member.findOne({ email: userDetail })) ||
       (await Teacher.findOne({ phone: userDetail })) ||
-      (await Teacher.findOne({ email: userDetail }));
+      (await Teacher.findOne({ email: userDetail })) ||
+      (await Staff.findOne({ email: userDetail }));
     // console.log(user);
     if (!!user) {
       console.log("Pass1");
@@ -95,7 +95,10 @@ router.post("/login", async (req, res, next) => {
           role: user.role,
         };
 
-        const token = jwt.sign({ payload }, process.env.JWT_SECRET, {
+        const private_key =
+          process.env.JWT_SECRET || "KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp";
+
+        const token = jwt.sign({ payload }, private_key, {
           expiresIn: "3d",
         });
         return res.status(200).json({

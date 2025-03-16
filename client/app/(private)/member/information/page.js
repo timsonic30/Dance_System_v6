@@ -35,12 +35,15 @@ export default function Information() {
   };
 
   const handleSave = async () => {
+    const token = localStorage.getItem("token");
+
     console.log(editValue, editField);
     try {
       const res = await fetch("http://localhost:3030/member/edit", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           editField,
@@ -144,11 +147,11 @@ export default function Information() {
           method: "POST",
           headers: {
             "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
+            authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            objectId: "67d1257e4d1fcb94294fb6af",
-          }),
+          // body: JSON.stringify({
+          //   objectId: "67d1257e4d1fcb94294fb6af",
+          // }),
         });
 
         if (!res.ok) {

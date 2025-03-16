@@ -139,20 +139,21 @@ export default function Information() {
     }
   };
 
+  // Starting
   useEffect(() => {
     const token = localStorage.getItem("token");
-    
+
     async function fetchUser() {
       try {
         const res = await fetch("http://localhost:3030/teacher/information", {
           method: "POST",
           headers: {
             "Content-type": "application/json",
-            // Authorization: `Bearer ${token}`,
+            authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            objectId: "67d3eb571cc1f316f7a27482",
-          }),
+          // body: JSON.stringify({
+          //   objectId: "67d3eb571cc1f316f7a27482",
+          // }),
         });
 
         if (!res.ok) {
