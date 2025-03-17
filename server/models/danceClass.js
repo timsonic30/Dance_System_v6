@@ -7,6 +7,7 @@ const danceClassSchema = new Schema({
   type: {
     type: String,
     enum: [
+      "Class Type",
       "Regular Class",
       "Pop Up Class",
       "Workshop Class",
@@ -16,21 +17,37 @@ const danceClassSchema = new Schema({
   },
   style: {
     type: String,
-    enum: ["Heels Dance", "Chair Dance", "Jazz Funk", "Twerk", "Hip Hop", "House", "Poping", "Locking", "Girls Hip Hop", "Urban", 'Conternporary', 'Waacking', 'K-pop', 'Breaking'],
+    enum: [
+      "Dance Type",
+      "Heels Dance",
+      "Chair Dance",
+      "Jazz Funk",
+      "Twerk",
+      "Hip Hop",
+      "House",
+      "Poping",
+      "Locking",
+      "Girls Hip Hop",
+      "Urban",
+      "Conternporary",
+      "Waacking",
+      "K-pop",
+      "Breaking",
+    ],
   },
   teacher: String,
   vacancy: String,
-  status:{ type: String, enum: ["招收中", "已取消", "額滿"] },
-  level: { type: String, enum: ["beginner", "Open style"] },
+  status: { type: String, enum: ["Status", "招收中", "已取消", "額滿"] },
+  level: { type: String, enum: ["Level", "beginner", "Open style"] },
   date: { type: Date },
   startTime: { type: String },
   endTime: { type: String },
   description: String,
   price: { type: Number },
   lessonDuration: [{ type: Date }],
-  room: { type: String, enum: ["Room X", "Room L", "Room XL"] },
-  performanceDay: { type: Date }, 
-  img:{ type: String },
+  room: { type: String, enum: ["Room Type", "Room X", "Room L", "Room XL"] },
+  performanceDay: { type: Date },
+  img: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 const DanceClass = mongoose.model("DanceClass", danceClassSchema);
@@ -39,23 +56,27 @@ module.exports = DanceClass;
 
 // 建立object及save到mongodb的範例
 // const newDanceClass = new DanceClass({
-//   code: "DC001",
-//   type: "Workshop Class",
-//   style: "Jazz Funk",
-//   teacher: "Ms. Emily Wong",
-//   vacancy: "10",
-//   status: "Open",
+//   code: "CLS905",
+//   type: "Other Class",
+//   style: "Girls Hip Hop",
+//   teacher: "67d3ed811cc1f316f7a2748a",
+//   vacancy: "7",
+//   status: "招收中",
 //   level: "beginner",
-//   date: new Date("2025-03-20"),
-//   startTime: "15:00",
-//   endTime: "16:30",
-//   description: "An energetic workshop to explore the basics of Jazz Funk. Perfect for beginners who want to groove and express themselves.",
-//   price: 200, // in your currency
-//   lessonDuration: [new Date("2025-03-20T15:00:00"), new Date("2025-03-20T16:30:00")],
-//   room: "Room L",
-//   performanceDay: new Date("2025-03-25"),
-//   img: "jazz_funk_workshop.jpg",
-//   createdAt: new Date(), // Defaults to the current date/time
+//   date: new Date("2025-04-28"),
+//   startTime: "09:00",
+//   endTime: "11:30",
+//   description:
+//     "A fun and empowering Girls Hip Hop class designed for beginners.",
+//   price: 3200,
+//   lessonDuration: [
+//     new Date("2025-04-28T09:00:00"),
+//     new Date("2025-04-28T11:30:00"),
+//   ],
+//   room: "Room X",
+//   performanceDay: new Date("2025-05-25"),
+//   img: "https://cdn.midjourney.com/59d8c800-32ad-45e1-ba4e-52803eaa9b4b/0_1.png",
+//   createdAt: new Date(),
 // });
 
 // newDanceClass
