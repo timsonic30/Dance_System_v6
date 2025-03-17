@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const DanceClass = require("../models/danceClass");
-const Teacher = require("../models/teacher")
+const Teacher = require("../models/teacher");
 
 //交給前端class資料
 router.get("/", async (req, res, next) => {
@@ -34,11 +34,41 @@ router.get("/schema", (req, res, next) => {
 //從前端到來的資料, 放入danceClass collection中
 router.post("/classCreate", async (req, res, next) => {
   const {
-    code, type, style, teacher, vacancy, status, level, date, startTime, endTime, description, price, lessonDuration, room, performanceDay, img
+    code,
+    type,
+    style,
+    teacher,
+    vacancy,
+    status,
+    level,
+    date,
+    startTime,
+    endTime,
+    description,
+    price,
+    lessonDuration,
+    room,
+    performanceDay,
+    img,
   } = req.body;
 
   const newDanceClass = new DanceClass({
-    code, type, style, teacher, vacancy, status, level, date, startTime, endTime, description, price, lessonDuration, room, performanceDay, img
+    code,
+    type,
+    style,
+    teacher,
+    vacancy,
+    status,
+    level,
+    date,
+    startTime,
+    endTime,
+    description,
+    price,
+    lessonDuration,
+    room,
+    performanceDay,
+    img,
   });
 
   newDanceClass
@@ -54,20 +84,39 @@ router.post("/classCreate", async (req, res, next) => {
 });
 
 //=======20250314================================
-router.get('/roomRental', (req, res, next) => { })
+router.get("/roomRental", (req, res, next) => {});
 //======20250314=15:00=取出DB的schema做form==========
-router.get('/teacherDataEntry', (req,res,next)=>{
+router.get("/teacherDataEntry", (req, res, next) => {
   const schema = Teacher.schema.paths;
   res.send({ schema });
-})
-//======將teacher的資料輸入DB=====================
-router.post('/teacherDataEntry', (req,res,next)=>{
+});
+//========將teacher的資料輸入DB=====================
+router.post("/teacherDataEntry", (req, res, next) => {
   //console.log(req.body)
-  const {    username, nickname, email, phone, password, dateOfBirth, description, style, instagram, profilePic
+  const {
+    username,
+    nickname,
+    email,
+    phone,
+    password,
+    dateOfBirth,
+    description,
+    style,
+    instagram,
+    profilePic,
   } = req.body;
 
   const newTeacher = new Teacher({
-    username, nickname, email, phone, password, dateOfBirth, description, style, instagram, profilePic
+    username,
+    nickname,
+    email,
+    phone,
+    password,
+    dateOfBirth,
+    description,
+    style,
+    instagram,
+    profilePic,
   });
 
   newTeacher
@@ -80,21 +129,50 @@ router.post('/teacherDataEntry', (req,res,next)=>{
     .catch((e) => {
       console.log(e);
     });
-})
-//=======向teacher collection取出資料, 放入頁面=====
-router.get("/tutor", async(req, res, next) => {     
-  console.log('this is call')
+});
+//========向teacher collection取出teacher資料
+router.get("/tutor", async (req, res, next) => {
   try {
-    console.log('this is try')
-    let Teachers = await Teacher.find()    
-    console.log(Teachers)    
+    let Teachers = await Teacher.find({}).exec();
     return res.send({ Teachers });
   } catch (e) {
     console.error("Error during database operation:", e.message);
     return res.status(500).send({ error: e.message });
   }
 });
-
+//========向teacher collection取出teacher資料
+router.get("/tutorOne", async (req, res, next) => {
+  try {
+    let oneTeacher = await Teacher.findOne({}).exec();
+    return res.send({ oneTeacher });
+  } catch (e) {
+    console.error("Error during database operation:", e.message);
+    return res.status(500).send({ error: e.message });
+  }
+});
+//========向teacher collection取出某一老師資料資料
+router.get("/tutor/:id", async (req, res, next) => {
+  try {
+    const tutorId = req.params.id; // 提取路徑參數 id
+    console.log(tutorId);
+    const someOneTeacher = await Teacher.findById(tutorId).exec(); // 假設用 ID 查找
+    return res.send({ someOneTeacher });
+  } catch (e) {
+    console.error("Error during database operation:", e.message);
+    return res.status(500).send({ error: e.message });
+  }
+});
+//========向danceClass collection取出某個老師的課程
+router.get("/:tutorid", async (req, res, next) => {
+  try {
+    const tutorId = req.params.tutorid;
+    const tutorClass = await DanceClass.find({ teacher: tutorId }).exec();
+    return res.send({ tutorClass });
+  } catch (e) {
+    console.error("Error during database operation (/:tutorid):", e.message);
+    return res.status(500).send({ error: e.message });
+  }
+});
 
 //export此module到index.js
 //index.js要用const danceClass = require("./routes/danceClass");接收
